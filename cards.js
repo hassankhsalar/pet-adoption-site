@@ -1,100 +1,255 @@
-console.log("added")
 
-//fetch catergories button
+//function for removing button styles 
 
-const loadCategories = () => {
-    //fetch
+const removeActiveClass = () => {
+  const buttons = document.getElementsByClassName("category-btn");
 
-    fetch("https://openapi.programming-hero.com/api/peddy/categories")
-    .then((res) => res.json())
-    .then(data => displayCategories(data.categories))
-    .catch((error) => console.log(error));
-}
+  for(let btn of buttons) {
+    btn.classList.remove("border-teal-600");
+  }
+};
+
+//load specific type pet details to  show
+const loadSpecDetails = async (petId) => {
+  console.log(petId);
+  const uri = `https://openapi.programming-hero.com/api/peddy/pet/${petId}`;
+  const res = await fetch(uri);
+  const data = await res.json();
+  displayDetails(data.petData);
+
+};
 
 
+//load pet details to  show
+const loadDetails = async (petId) => {
+  console.log(petId);
+  const uri = `https://openapi.programming-hero.com/api/peddy/pet/${petId}`;
+  const res = await fetch(uri);
+  const data = await res.json();
+  displayDetails(data.petData);
+
+};
+
+// show pet details
+const displayDetails = (petData) => {
+  console.log(petData);
+  const detailContainer = document.getElementById("modalContent");
+
+  detailContainer.innerHTML = `
+  <div><img class="w-full rounded-b-2xl" src=${petData.image}/></div>
+  <div class="w-full">
+  <h2 class="text-2xl	font-semibold	pt-4">${petData.pet_name}</h2>
+  <p><i class="fa-solid fa-table-cells-large"></i> Breed: ${petData.breed}</p>
+  <p><i class="fa-solid fa-mercury"></i> Gender: ${petData.gender}</p>
+  <p><i class="fa-solid fa-mercury"></i> Vaccination Status: ${petData.vaccinated_status}</p>
+  <p><i class="fa-regular fa-calendar-minus"></i> Birth: ${petData.date_of_birth}</p>
+  <p><i class="fa-solid fa-dollar-sign"></i> Price: ${petData.price}</p>
+  </div>
+  <div>
+  <h2 class="text-lg font-semibold">Details Information:</h2>
+  <p>${petData.pet_details}</p>
+  </div>
+  
+            <div class="modal-action">
+              <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn w-96 mr-12 bg-teal-50 border-teal-600">Cancel</button>
+              </form>
+            </div>
+            `;
+  
+
+  document.getElementById("showModalData").click();
+};
 
 
-const displayCategories = (categories) => {
+//fetch categories button
+//fetch categories button
+const loadCategoryDemo = (category) => {
+  const spinner = document.getElementById("loadingSpinner"); // Get spinner element
+  spinner.classList.remove("hidden"); // Show spinner
 
-const catergoryContainer = document.getElementById("categories")
+  const fetchData = fetch(`https://openapi.programming-hero.com/api/peddy/category/${category}`)
+    .then((res) => res.json());
 
+  const delay = new Promise((resolve) => setTimeout(resolve, 2000)); // Ensure 2 seconds delay
 
-        categories.forEach( item => {
-        console.log(item);
+  Promise.all([fetchData, delay])
+    .then(([data]) => {
+      spinner.classList.add("hidden"); // Hide spinner after 2 seconds
 
-        //creating button
+      // Handle data
+      const activeBtn = document.getElementById(`btn-${category}`);
+      removeActiveClass();
+      activeBtn.classList.add("border-teal-600");
 
-        const button =document.createElement("button");
-        button.classList = "btn";
-        button.innerHTML = `<img class="w-6" src="${item.category_icon}" alt="">${item.category}</img>`
-
-        //add button
-        catergoryContainer.append(button);
+      if (data && data.data) {
+        displayCategory(data.data); 
+      } else {
+        console.log('No data found for this category.');
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      spinner.classList.add("hidden"); // Hide spinner if there's an error
     });
+};
+
+// Load categories
+const loadCategories = () => {
+  fetch("https://openapi.programming-hero.com/api/peddy/categories")
+    .then((res) => res.json())
+    .then((data) => displayCategories(data.categories))
+    .catch((error) => console.log(error));
+};
+
+// Display categories
+const displayCategories = (categories) => {
+  const catergoryContainer = document.getElementById("categories");
+  categories.forEach((item) => {
+    console.log(item);
+
+    // Create button for each category
+    const buttonContainer = document.createElement("div");
+    buttonContainer.innerHTML = `
+      <button id="btn-${item.category}" onclick="loadCategoryDemo('${item.category}')" class="btn bg-teal-50 px-10 rounded-3xl category-btn">
+        <img class="w-6" src="${item.category_icon}" alt="">${item.category}
+      </button>`;
+
+    // Add button
+    catergoryContainer.append(buttonContainer);
+  });
 };
 
 loadCategories();
 
-//load all random cards
-
+// Load all random cards
 const loadCards = () => {
-    //fetch
-
-    fetch("https://openapi.programming-hero.com/api/peddy/pets")
+  fetch("https://openapi.programming-hero.com/api/peddy/pets")
     .then((res) => res.json())
-    .then(data => displayAllCategories(data.pets))
+    .then((data) => displayAllCategories(data.pets))
     .catch((error) => console.log(error));
-}
+};
 
+// Display all categories
 const displayAllCategories = (pets) => {
+  const cardsContainer = document.getElementById("allcards");
+  pets.forEach((item) => {
+    console.log(item);
 
-    const cardsContainer = document.getElementById("allcards")
-    
-    
-            pets.forEach( (item) => {
-            console.log(item);
-    
-            //creating button
-    
-            const card =document.createElement("div");
-            card.classList = "card card-compact bg-base-100 shadow-xl"
-            card.innerHTML = 
-`
-  <figure class="h-[200px]">
-    <img 
-      class="h-full w-full object-cover"
-      src=${item.image}
-      alt="Shoes" />
-  </figure>
-  <div class="card-body">
-    <h2 class="card-title">${item.pet_name}</h2>
-    <p><i class="fa-solid fa-table-cells-large"></i> Breed: ${item.breed}</p>
-    <p><i class="fa-regular fa-calendar-minus"></i> Birth: ${item.date_of_birth}</p>
-    <p><i class="fa-solid fa-mercury"></i> Gender: ${item.gender}</p>
-    <p><i class="fa-solid fa-dollar-sign"></i> Price: ${item.price}</p>
-    <div class="card-actions flex flex-row justify-center">
-      <button class="btn btn-primary"><i class="fa-regular fa-thumbs-up"></i></button>
-      <button class="btn btn-primary">Adopt</button>
-      <button class="btn btn-primary">Details</button>
-    </div>
-  </div>`
-    
-            //add button
-            cardsContainer.append(card);
-        });
-    };
+    // Create card for each pet
+    const card = document.createElement("div");
+    card.classList = "card card-compact bg-base-100 shadow-xl";
+    card.innerHTML = `
+      <figure class="h-[200px]">
+        <img class="h-full w-full object-cover" src="${item.image}" alt="Pet Image" />
+      </figure>
+      <div class="card-body">
+        <h2 class="card-title">${item.pet_name || "Not available"}</h2>
+        <p><i class="fa-solid fa-table-cells-large"></i> Breed: ${item.breed || "Not available"}</p>
+        <p><i class="fa-regular fa-calendar-minus"></i> Birth: ${item.date_of_birth || "Not available"}</p>
+        <p><i class="fa-solid fa-mercury"></i> Gender: ${item.gender || "Not available"}</p>
+        <p><i class="fa-solid fa-dollar-sign"></i> Price: ${item.price ? `$${item.price}` : "Not available"}</p>
+        <div class="card-actions flex flex-row justify-center">
+          <button class="likeButton btn btn-primary" data-image="${item.image}"><i class="fa-regular fa-thumbs-up"></i></button>
+          <button class="btn btn-primary">Adopt</button>
+          <button onclick="loadDetails('${item.petId}')" class="btn btn-primary">Details</button>
+        </div>
+      </div>`;
 
-    loadCards();
+    // Add the card to the container
+    cardsContainer.append(card);
+  });
 
-    //{
-      //"petId": 1,
-      //"breed": "Golden Retriever",
-      //"category": "Dog",
-      //"date_of_birth": "2023-01-15",
-      //"price": 1200,
-     // "image": "https://i.ibb.co.com/p0w744T/pet-1.jpg",
-      //"gender": "Male",
-      //"pet_details": "This friendly male Golden Retriever is energetic and loyal, making him a perfect companion for families. Born on January 15, 2023, he enjoys playing outdoors and is especially great with children. Fully vaccinated, he's ready to join your family and bring endless joy. Priced at $1200, he offers love, loyalty, and a lively spirit for those seeking a playful yet gentle dog.",
-      //"vaccinated_status": "Fully",
-      //"pet_name": "Sunny"
-      //},
+  // Handle like button click
+  document.querySelectorAll('.likeButton').forEach((button) => {
+    button.addEventListener('click', function() {
+      const imageUrl = this.getAttribute('data-image');
+      const imageDiv = document.getElementById('likedCards');
+      const imgElement = document.createElement('img');
+      imgElement.src = imageUrl;
+      imgElement.style.borderRadius = "10px";
+      imgElement.style.padding = "5px";
+      imageDiv.appendChild(imgElement);
+    });
+  });
+};
+
+// Display specific category
+const displayCategory = (data) => {
+  const cardsContainer = document.getElementById("allcards");
+  cardsContainer.innerHTML = ""; // Clear existing cards before displaying new ones
+
+  if (data.length == 0) {
+    cardsContainer.classList.remove("grid");
+    cardsContainer.innerHTML = 
+    `<div class="flex flex-col justify-center w-full ">
+<img class="h-2/4 w-3/12 mx-auto pt-10" src="./images/error.webp" alt="">
+<h2 class="text-4xl font-bold text-center pt-5">No Information Available</h2>
+<p class="text-xl text-center w-full mx-auto pt-4">The data for the birds category is absent in the server at the moment.please reach out to our support and leave a complaint.</p>
+</div>`;
+    return;
+   }     else{
+    cardsContainer.classList.add("grid");
+   }
+
+  
+  data.forEach((item) => {
+    const petName = item.pet_name ? item.pet_name : "Not available";
+    const breed = item.breed ? item.breed : "Not available";
+    const dateOfBirth = item.date_of_birth ? item.date_of_birth : "Not available";
+    const gender = item.gender ? item.gender : "Not available";
+    const price = item.price ? `$${item.price}` : "Not available";
+    const image = item.image ? item.image : "default_image_url_here"; // Set a default image if none
+    
+    const card = document.createElement("div");
+    card.classList = "card card-compact bg-base-100 shadow-xl";
+    card.innerHTML = `
+      <figure class="h-[200px]">
+        <img class="h-full w-full object-cover" src="${image}" alt="Pet Image" />
+      </figure>
+      <div class="card-body">
+        <h2 class="card-title">${petName}</h2>
+        <p><i class="fa-solid fa-table-cells-large"></i> Breed: ${breed}</p>
+        <p><i class="fa-regular fa-calendar-minus"></i> Birth: ${dateOfBirth}</p>
+        <p><i class="fa-solid fa-mercury"></i> Gender: ${gender}</p>
+        <p><i class="fa-solid fa-dollar-sign"></i> Price: ${price}</p>
+        <div class="card-actions flex flex-row justify-center">
+          <button class="likeButton btn btn-primary" data-image="${image}"><i class="fa-regular fa-thumbs-up"></i></button>
+          <button class="btn btn-primary">Adopt</button>
+          <button onclick="loadSpecDetails('${item.petId}')" class="btn btn-primary">Details</button>
+        </div>
+      </div>`;
+
+    cardsContainer.append(card);
+  });
+
+  // Handle like button click for newly loaded cards
+  document.querySelectorAll('.likeButton').forEach((button) => {
+    button.addEventListener('click', function() {
+      const imageUrl = this.getAttribute('data-image');
+      const imageDiv = document.getElementById('likedCards');
+      const imgElement = document.createElement('img');
+      imgElement.src = imageUrl;
+      imgElement.style.borderRadius = "10px";
+      imgElement.style.padding = "5px";
+      imageDiv.appendChild(imgElement);
+    });
+  });
+};
+
+loadCards();
+
+
+//spinner codes 
+
+const showSpinner = () => {
+  const spinner = document.getElementById('loadingSpinner');
+  spinner.classList.remove('hidden');
+};
+
+// Hide spinner
+const hideSpinner = () => {
+  const spinner = document.getElementById('loadingSpinner');
+  spinner.classList.add('hidden');
+};

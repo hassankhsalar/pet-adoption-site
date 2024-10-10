@@ -48,18 +48,21 @@
             <h2 class="text-center text-2xl font-semibold mt-6 mb-6">Adopt  Your  Best Friend</h2>
             <p class="w-3/5 text-center font-normal	">Explore our diverse range of pets, read their heartwarming stories, and take the first step towards giving a deserving pet a second chance at life. Let's make a difference together!</p>
         </div>
-        <div class="flex gap-24 justify-center mt-10 mb-10">
-            <button class="btn bg-orange-50 px-10 rounded-3xl border-teal-900"><i class="fa-solid fa-dog"></i>Dogs</button>
-            <button class="btn  bg-orange-50 px-10 rounded-3xl border-teal-900"><i class="fa-solid fa-cat"></i>Cats</button>
-            <button class="btn bg-orange-50 px-10 rounded-3xl border-teal-900"><i class="fa-solid fa-frog"></i>Rabbits</button>
-            <button class="btn bg-orange-50 px-10 rounded-3xl border-teal-900"><i class="fa-solid fa-dove"></i>Birds</button>
+        <div class=" mt-15 mb-10">
+            
         </div>
     </section>
 
-    <nav id="categories" class="flex gap-5 justify-center"></nav>
+    <nav id="categories" class="flex gap-11 justify-center mb-14"></nav>
 
     <main>
-      <section id="allcards" class="w-11/12 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 py-10">
+      <section class="w-full flex flex-row">
+        <div id="allcards" class="w-4/6 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 py-10">
+
+        </div>
+        <div id="likedCards" class="w-1/6 border-2 mr-7 rounded-2xl grid grid-cols-2 gap-2 grid-flow-row auto-rows-max">
+
+        </div>
       </section>
     </main>
 
@@ -126,7 +129,24 @@
             <button class="btn  bg-teal-800 border-0 px-7 py-1">Subscribe</button>
           </nav>
       </footer>
-      <script src="./cards.js"></script>
+      
+      <!-- spinner code -->
+      
+      <div id="loadingSpinner" class="fixed inset-0 flex justify-center items-center bg-gray-200         bg-opacity-50 hidden">
+            <span class="loading loading-bars loading-lg"></span>
+      </div>
+
+
+      <!-- Open the modal using ID.showModal() method -->
+      <div class="">
+        <button id="showModalData" class="btn" onclick="customModal.showModal()">open modal</button>
+        <dialog id="customModal" class="modal">
+          <div id="modalContent" class="modal-box">
+            
+          </div>
+        </dialog>
+    </div>
+    <script src="./cards.js"></script>
 </body>
 </html>
 
