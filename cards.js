@@ -64,21 +64,21 @@ const displayDetails = (petData) => {
 
 
 //fetch categories button
-//fetch categories button
+
 const loadCategoryDemo = (category) => {
-  const spinner = document.getElementById("loadingSpinner"); // Get spinner element
-  spinner.classList.remove("hidden"); // Show spinner
+  const spinner = document.getElementById("loadingSpinner");
+  spinner.classList.remove("hidden");
 
   const fetchData = fetch(`https://openapi.programming-hero.com/api/peddy/category/${category}`)
     .then((res) => res.json());
 
-  const delay = new Promise((resolve) => setTimeout(resolve, 2000)); // Ensure 2 seconds delay
+  const delay = new Promise((resolve) => setTimeout(resolve, 2000));
 
   Promise.all([fetchData, delay])
     .then(([data]) => {
-      spinner.classList.add("hidden"); // Hide spinner after 2 seconds
+      spinner.classList.add("hidden");
 
-      // Handle data
+      
       const activeBtn = document.getElementById(`btn-${category}`);
       removeActiveClass();
       activeBtn.classList.add("border-teal-600");
@@ -91,7 +91,7 @@ const loadCategoryDemo = (category) => {
     })
     .catch((error) => {
       console.log(error);
-      spinner.classList.add("hidden"); // Hide spinner if there's an error
+      spinner.classList.add("hidden");
     });
 };
 
@@ -134,10 +134,10 @@ const loadCards = () => {
 
 // Handle adoption process
 const handleAdopt = (button) => {
-  let countdown = 3; // Countdown starting from 3
-  button.disabled = true; // Disable the button during the process
+  let countdown = 3;
+  button.disabled = true;
   
-  // Open the modal
+  
   openModal();
 
   const countdownElement = document.getElementById("countdown");
@@ -145,22 +145,21 @@ const handleAdopt = (button) => {
 
   const interval = setInterval(() => {
     if (countdown > 0) {
-      countdownElement.textContent = countdown; // Update countdown in modal
+      countdownElement.textContent = countdown;
       countdown--;
     } else {
-      clearInterval(interval); // Clear the interval once the countdown reaches 0
-      button.textContent = "Adopted"; // Change the button text to "Adopted"
-      button.classList.add("btn-disabled"); // Optionally add a disabled class for styling
+      clearInterval(interval);
+      button.textContent = "Adopted";
+      button.classList.add("btn-disabled");
 
       // Change modal content to show "Adopted"
       document.getElementById("modalTitle").textContent = "Adoption Complete";
-      document.getElementById("modalContent").textContent = "The pet has been adopted!";
       
       setTimeout(() => {
-        closeModal(); // Close the modal after a short delay
-      }, 1500); // Keep the "Adopted" message visible for 1.5 seconds
+        closeModal();
+      }, 1500);
     }
-  }, 1000); // Update every second
+  }, 1000);
 };
 
 // Function to open the modal
@@ -201,9 +200,9 @@ const displayAllCategories = (pets) => {
         <p><i class="fa-solid fa-mercury"></i> Gender: ${item.gender || "Not available"}</p>
         <p><i class="fa-solid fa-dollar-sign"></i> Price: ${item.price ? `$${item.price}` : "Not available"}</p>
         <div class="card-actions flex flex-row justify-center">
-          <button class="likeButton btn btn-primary" data-image="${item.image}"><i class="fa-regular fa-thumbs-up"></i></button>
-          <button class="btn adoptButton btn-primary">Adopt</button>
-          <button onclick="loadDetails('${item.petId}')" class="btn btn-primary">Details</button>
+          <button class="likeButton btn  border-teal-800 bg-slate-50 text-teal-800" data-image="${item.image}"><i class="fa-regular fa-thumbs-up"></i></button>
+          <button class="btn adoptButton  border-teal-800 bg-slate-50 text-teal-800">Adopt</button>
+          <button onclick="loadDetails('${item.petId}')" class="btn  border-teal-800 bg-slate-50 text-teal-800">Details</button>
         </div>
       </div>`;
 
@@ -233,7 +232,7 @@ const displayAllCategories = (pets) => {
 // Display specific category
 const displayCategory = (data) => {
   const cardsContainer = document.getElementById("allcards");
-  cardsContainer.innerHTML = ""; // Clear existing cards before displaying new ones
+  cardsContainer.innerHTML = "";
 
   if (data.length == 0) {
     cardsContainer.classList.remove("grid");
@@ -255,7 +254,7 @@ const displayCategory = (data) => {
     const dateOfBirth = item.date_of_birth ? item.date_of_birth : "Not available";
     const gender = item.gender ? item.gender : "Not available";
     const price = item.price ? `$${item.price}` : "Not available";
-    const image = item.image ? item.image : "default_image_url_here"; // Set a default image if none
+    const image = item.image ? item.image : "https://img.freepik.com/free-vector/cute-animal-friends-together_1308-169700.jpg?size=626&ext=jpg&ga=GA1.1.1173543546.1720171727&semt=ais_hybrid"; 
     
     const card = document.createElement("div");
     card.classList = "card card-compact bg-base-100 shadow-xl";
@@ -270,9 +269,9 @@ const displayCategory = (data) => {
         <p><i class="fa-solid fa-mercury"></i> Gender: ${gender}</p>
         <p><i class="fa-solid fa-dollar-sign"></i> Price: ${price}</p>
         <div class="card-actions flex flex-row justify-center">
-          <button class="likeButton btn btn-primary" data-image="${image}"><i class="fa-regular fa-thumbs-up"></i></button>
-          <button class="btn adoptButton btn-primary">Adopt</button>
-          <button onclick="loadSpecDetails('${item.petId}')" class="btn btn-primary">Details</button>
+          <button class="likeButton btn  border-teal-800 bg-slate-50 text-teal-800" data-image="${image}"><i class="fa-regular fa-thumbs-up "></i></button>
+          <button class="btn adoptButton  border-teal-800 bg-slate-50 text-teal-800">Adopt</button>
+          <button onclick="loadSpecDetails('${item.petId}')" class="btn  border-teal-800 bg-slate-50 text-teal-800">Details</button>
         </div>
       </div>`;
 
@@ -313,3 +312,8 @@ const hideSpinner = () => {
   const spinner = document.getElementById('loadingSpinner');
   spinner.classList.add('hidden');
 };
+
+//view more button 
+document.getElementById("viewMoreBtn").addEventListener("click", function() {
+  document.getElementById("adoptSection").scrollIntoView({ behavior: "smooth" });
+});

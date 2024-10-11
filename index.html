@@ -9,25 +9,43 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 </head>
 <body>
-    <header>
-        <nav class="flex justify-center">
-            <div class="navbar w-10/12  bg-base-100">
-                <div class="navbar-start">
-                  <a class="btn btn-ghost text-xl font-extrabold	"><img src="./images/logo.webp" alt="">Peddy</a>
-                </div>
-                <div class="navbar-center hidden lg:flex">
-                  <ul class="menu menu-horizontal px-1">
-                    <li><a>Home</a></li>
-                    <li><a>Shop</a></li>
-                    <li><a>Contact</a></li>
-                  </ul>
-                </div>
-                <div class="navbar-end">
-                  <a class="btn border border-teal-200 rounded-full"><i class="fa-regular fa-user"></i></a>
-                </div>
-              </div>
-        </nav>
-    </header>
+  <header>
+    <nav class="flex justify-center">
+      <div class="navbar w-10/12 bg-base-100">
+        
+        <div class="navbar-start">
+          <a class="btn btn-ghost text-xl font-extrabold"><img src="./images/logo.webp" alt="">Peddy</a>
+        </div>
+  
+        <div class="navbar-center hidden lg:flex">
+          <ul class="menu menu-horizontal px-1">
+            <li><a>Home</a></li>
+            <li><a>Shop</a></li>
+            <li><a>Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="navbar-end flex items-center">
+       
+          <a class="btn border border-teal-600 rounded-full mr-2">
+            <i class="fa-regular fa-user"></i>
+          </a>
+          
+          <button class="btn border-teal-600 lg:hidden" id="hamburgerBtn">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+  
+    <div id="mobileMenu" class="hidden bg-white w-full py-2 lg:hidden">
+      <ul class="menu p-2 shadow bg-base-100 rounded-box w-full">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Shop</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </header>
 
     <section class="flex flex-col justify-center items-center">
         <div class="flex flex-col justify-center items-center">
@@ -35,7 +53,7 @@
             <h2 class="text-center text-4xl font-semibold mt-6 mb-6">Your Path To Adoption <br> Starts Here</h2>
             <p class="w-3/5 text-center font-normal	">Welcome to PEDDY! a loving pet adoption platform dedicated to connecting animals in need with their forever homes.</p>
 
-            <button class="btn bg-teal-800 text-white mt-4">View More</button>
+            <button id="viewMoreBtn" class="btn bg-teal-800 text-white mt-4">View More</button>
         </div>
         <div>
             <img src="./images/pet.webp" alt="">
@@ -43,20 +61,24 @@
     </section>
 
 
-    <section class="flex flex-col justify-center items-center"></section>
+    <section id="adoptSection" class="flex flex-col justify-center items-center"></section>
         <div class="flex flex-col justify-center items-center">
             <h2 class="text-center text-2xl font-semibold mt-6 mb-6">Adopt  Your  Best Friend</h2>
             <p class="w-3/5 text-center font-normal	">Explore our diverse range of pets, read their heartwarming stories, and take the first step towards giving a deserving pet a second chance at life. Let's make a difference together!</p>
         </div>
-        <div class=" mt-15 mb-10">
-            
+        <div class=" mt-15 mb-10 flex justify-around">
         </div>
     </section>
 
-    <nav id="categories" class="flex gap-11 justify-center mb-14"></nav>
+    <nav id="categories" class="flex gap-2 justify-center mb-14 md:gap-11 lg:gap-11"></nav>
 
     <main>
+      <div class="w-10/12 mt-15 mb-10 flex justify-around">
+        <p class="font-semibold text-xl">Best Deal For You</p>
+        <button class=" btn bg-teal-800 text-white">Sort By Price</button>
+    </div>
       <section class="w-full flex flex-row">
+        
         <div id="allcards" class="w-4/6 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 py-10">
 
         </div>
@@ -111,6 +133,17 @@
                     d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
                 </svg>
               </a>
+              <a>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  class="fill-current">
+                  <path
+                    d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
+                </svg>
+              </a>
             </div>
           </nav>
 
@@ -130,14 +163,12 @@
           </nav>
       </footer>
       
-      <!-- spinner code -->
       
       <div id="loadingSpinner" class="fixed inset-0 flex justify-center items-center bg-gray-200         bg-opacity-50 hidden">
             <span class="loading loading-bars loading-lg"></span>
       </div>
 
 
-      <!-- Open the modal using ID.showModal() method -->
       <div class="">
         <button id="showModalData" class="btn" onclick="customModal.showModal()">open modal</button>
         <dialog id="customModal" class="modal">
@@ -146,7 +177,7 @@
           </div>
         </dialog>
     </div>
-    <!-- Adoption Modal -->
+
 <div id="adoptModal" class="modal">
   <div class="modal-box">
     <img class="h-56 w-full object-cover" src="https://as1.ftcdn.net/v2/jpg/01/58/83/16/1000_F_158831665_qNilN3HdwX6R5sUzJBBxYIs8ecyY2Luj.jpg" alt="">
