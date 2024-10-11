@@ -131,6 +131,56 @@ const loadCards = () => {
     .catch((error) => console.log(error));
 };
 
+
+// Handle adoption process
+const handleAdopt = (button) => {
+  let countdown = 3; // Countdown starting from 3
+  button.disabled = true; // Disable the button during the process
+  
+  // Open the modal
+  openModal();
+
+  const countdownElement = document.getElementById("countdown");
+  countdownElement.textContent = countdown;
+
+  const interval = setInterval(() => {
+    if (countdown > 0) {
+      countdownElement.textContent = countdown; // Update countdown in modal
+      countdown--;
+    } else {
+      clearInterval(interval); // Clear the interval once the countdown reaches 0
+      button.textContent = "Adopted"; // Change the button text to "Adopted"
+      button.classList.add("btn-disabled"); // Optionally add a disabled class for styling
+
+      // Change modal content to show "Adopted"
+      document.getElementById("modalTitle").textContent = "Adoption Complete";
+      document.getElementById("modalContent").textContent = "The pet has been adopted!";
+      
+      setTimeout(() => {
+        closeModal(); // Close the modal after a short delay
+      }, 1500); // Keep the "Adopted" message visible for 1.5 seconds
+    }
+  }, 1000); // Update every second
+};
+
+// Function to open the modal
+const openModal = () => {
+  const modal = document.getElementById("adoptModal");
+  modal.classList.add("modal-open");
+};
+
+// Function to close the modal
+const closeModal = () => {
+  const modal = document.getElementById("adoptModal");
+  modal.classList.remove("modal-open");
+  document.getElementById("modalTitle").textContent = "Congrates";
+};
+
+
+
+
+
+
 // Display all categories
 const displayAllCategories = (pets) => {
   const cardsContainer = document.getElementById("allcards");
@@ -152,7 +202,7 @@ const displayAllCategories = (pets) => {
         <p><i class="fa-solid fa-dollar-sign"></i> Price: ${item.price ? `$${item.price}` : "Not available"}</p>
         <div class="card-actions flex flex-row justify-center">
           <button class="likeButton btn btn-primary" data-image="${item.image}"><i class="fa-regular fa-thumbs-up"></i></button>
-          <button class="btn btn-primary">Adopt</button>
+          <button class="btn adoptButton btn-primary">Adopt</button>
           <button onclick="loadDetails('${item.petId}')" class="btn btn-primary">Details</button>
         </div>
       </div>`;
@@ -171,6 +221,11 @@ const displayAllCategories = (pets) => {
       imgElement.style.borderRadius = "10px";
       imgElement.style.padding = "5px";
       imageDiv.appendChild(imgElement);
+    });
+  });
+  document.querySelectorAll('.adoptButton').forEach((button) => {
+    button.addEventListener('click', function() {
+      handleAdopt(button);
     });
   });
 };
@@ -216,7 +271,7 @@ const displayCategory = (data) => {
         <p><i class="fa-solid fa-dollar-sign"></i> Price: ${price}</p>
         <div class="card-actions flex flex-row justify-center">
           <button class="likeButton btn btn-primary" data-image="${image}"><i class="fa-regular fa-thumbs-up"></i></button>
-          <button class="btn btn-primary">Adopt</button>
+          <button class="btn adoptButton btn-primary">Adopt</button>
           <button onclick="loadSpecDetails('${item.petId}')" class="btn btn-primary">Details</button>
         </div>
       </div>`;
@@ -234,6 +289,11 @@ const displayCategory = (data) => {
       imgElement.style.borderRadius = "10px";
       imgElement.style.padding = "5px";
       imageDiv.appendChild(imgElement);
+    });
+  });
+  document.querySelectorAll('.adoptButton').forEach((button) => {
+    button.addEventListener('click', function() {
+      handleAdopt(button);
     });
   });
 };
