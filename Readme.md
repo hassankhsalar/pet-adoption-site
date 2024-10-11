@@ -23,4 +23,4 @@ This is a pet adoption platform where users can browse and adopt pets. The websi
 5. **Event Listeners**: Used for user interaction (e.g., toggling the mobile menu and sorting cards).
 
 ## Live Demo
-Check out the live version of **Peddy**: [Peddy - Pet Adoption Platform](#)
+Check out the live version of **Peddy**: https://peddy-adoptions.netlify.app/
