@@ -317,3 +317,13 @@ const hideSpinner = () => {
 document.getElementById("viewMoreBtn").addEventListener("click", function() {
   document.getElementById("adoptSection").scrollIntoView({ behavior: "smooth" });
 });
+
+
+// Get the hamburger button and the mobile menu
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+
+// Toggle mobile menu visibility when hamburger button is clicked
+hamburgerBtn.addEventListener('click', function () {
+  mobileMenu.classList.toggle('hidden');
+});
