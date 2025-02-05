@@ -1,3 +1,9 @@
+
+## Screenshots
+
+![App Screenshot](https://i.ibb.co.com/zWNG6MVS/Screenshot-2025-01-28-124947.png)
+![App Screenshot](https://i.ibb.co.com/FLZS2rKw/Screenshot-2025-01-28-125015.png)
+
 ## Peddy - Pet Adoption Platform
 
 This is a pet adoption platform where users can browse and adopt pets. The website will provide with pet-related data such as categories of pets, specific pet details , pet data based on category. The website will help you to keep track of liked pets and adopted pets.
